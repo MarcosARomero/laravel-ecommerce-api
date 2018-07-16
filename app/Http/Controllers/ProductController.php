@@ -72,14 +72,14 @@ class ProductController extends Controller
      * @param  \App\Model\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $Product)
+    public function update(Request $request, Product $product)
     {
         $request['detail'] = $request->description;
         unset($request['description']);
-        $Product->update($request->all());
+        $product->update($request->all());
 
         return response([
-            'data' => new ProductResource($Product)
+            'data' => new ProductResource($product)
         ], Response::HTTP_CREATED);
     }
 
@@ -91,6 +91,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
